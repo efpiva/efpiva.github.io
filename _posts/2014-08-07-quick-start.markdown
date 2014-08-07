@@ -70,13 +70,17 @@ That's it! You're ready for the next step.
 
 ### Configuring your solution
 
-Dover help you manage all the lifecycle of your application, from installation to upgrade and testing. I'll discuss this latter on a separate post, but for now all you need to know is tell Dover your name, so it can register it properlly. To do so, add an AddinAttribute to your main class:
+Dover help you manage all the lifecycle of your application, from installation to upgrade and testing. I'll discuss this latter on a separate post, but for now all you need to know is tell Dover your name, and where we're going to add our forms from, so it can register it properlly. To do so, add an AddinAttribute to your main class:
 
 {% highlight C# %}
-[AddIn(Description="My Test App")]
+[AddIn(Description="My Test App", B1SResource="DoverTutorial.DoverTutorial.b1s")]
 class Program
 {% endhighlight  %}
-    
+
+So we're telling Dover that our Description is "My Test App" and that the compiled b1s file can be found on the fully qualified resource name "DoverTutorial.DoverTutorial.b1s". So it's important that you compile it once and embbed the compiled b1s file to your solution. To do so just right click on DoverTutorial, click "Add -> Existing Item", and select DoverTutorial.b1s located on folder bin\Debug.
+
+Dover add flexibility for Addin development. Instead of relying on a b1s file on your Addon folder, you can specify as many b1s file as you want. You can also specify an embedded XML for some specific form, this and some nice features will be explained on some advanced topic posts. What this mean is that you can split your development in multiple modules, one for each functionality, again reducing maintenance and support. A Bug fix on a module that a few customers use will require an update just on those customers, instead of releasing a whole new version of a big addon.
+
 
 ### Setting up Menu and Events
 
@@ -98,7 +102,7 @@ Now we just need to tell that the menuEvent with UniqueID of doverTutForm will t
 {% highlight C# %}
 [MenuEvent(UniqueUID ="doverTutForm")]
 [FormAttribute("DoverTutorial.Form1", "Form1.b1f")]
-class Form1 : UserFormBase
+class Form1 : DoverUserFormBase
 {% endhighlight %}
 
 And we're done! We can already deploy it on Dover.
@@ -135,5 +139,4 @@ Now you know how to handle Menu, Menu events and what classes handles UserForm, 
 
 Try it out!
 
-
-
+Download the source code for this tutorial [here](https://github.com/efpiva/DoverTutorial/archive/master.zip).
