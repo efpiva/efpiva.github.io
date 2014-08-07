@@ -47,27 +47,45 @@ a:visited { color: #205caa; }
   background-color: white;
 }
 
+
+header h1 {
+  margin: 0 0 0 0;
+}
+
+header p {
+  margin: 0 0 0 0;
+  margin-left: 80px;
+  margin-top: -15px;
+}
+
+.site-maintitle,
+.site-maintitle:hover,
+.site-maintitle:visited {
+  color: #333;
+  font-size: 26px;
+  letter-spacing: -1px;
+  line-height: 56px;
+  position: relative;
+}
+
 .site-title,
 .site-title:hover,
 .site-title:visited {
   display: block;
   color: #333;
   font-size: 26px;
-  letter-spacing: -1px;
   float: left;
-  line-height: 56px;
   position: relative;
-  z-index: 1;
 }
 
 .site-subtitle {
     display: block;
     color: #333;
     font-size: 14px;
-    float: left;
+//    float: left;
     position: relative;
-    left: -8em;
-    top: 2.5em;
+//    left: -8em;
+//    top: 2.5em;
 }
 
 .site-nav {
