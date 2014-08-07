@@ -1,0 +1,20 @@
+---
+layout: default
+title: Downloads
+---
+
+<div class="home">
+
+ <ul>
+  {% for release in site.data.releases %}
+  {% for releaseinfo in release %}
+  {% for releasearchinfo in releaseinfo %}
+  <li>
+  <a href="{{releasearchinfo.URL}}">{{releasearchinfo.Version}} - {{releasearchinfo.Arch}}</a>
+  </li>
+  {% endfor %}
+  {% endfor %}
+  {% endfor %}
+</ul>
+
+</div>
