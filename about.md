@@ -16,6 +16,6 @@ Those two features were blocking us from using B1Studio, but we really enjoyed t
 
 The framework is licensed under GPLv3. So you can download the source code, compile it, modify it, as long as you respect all the license terms specified on the license.
 
-This does not restrict the license of the solutions (called addins) you write on top of Dover. Your addins can have diference license models, being it open source or proprietary. 
+This does not restrict the license of the solutions (called addins) you write on top of Dover. Your addins can have difference license models, being it open source or proprietary. 
 
 If you have any questions, contact me.
