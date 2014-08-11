@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Writing an Addin - Quick Start"
-date:   2014-08-07 02:29:25
+date:   2014-08-07 10:00:00
 categories: article
 ---
 
