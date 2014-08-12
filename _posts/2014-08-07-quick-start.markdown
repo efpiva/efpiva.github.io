@@ -139,4 +139,4 @@ Now you know how to handle Menu, Menu events and what classes handles UserForm, 
 
 Try it out!
 
-Download the source code for this tutorial [here](https://github.com/efpiva/DoverTutorial/archive/master.zip).
+Download the source code for this tutorial on the [download]({{ site.url }}/downloads/) page.
