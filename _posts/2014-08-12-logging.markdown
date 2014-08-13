@@ -1,0 +1,62 @@
+---
+layout: post
+title:  "Enterprise logging"
+date:   2014-08-12 20:00
+categories: articles
+---
+
+Logging is something that you'll regret not thinking about when something goes wrong. Dover integrates with Log4net, an open source library that supports a variety of sources (console, SMTP, files and others). Besides supporting log4net, Dover implements a custom appender that also logs into SAP Business One UI API, writing messages on status bar for informative messages and on exception windows in case of exceptions.
+
+### Using log4net
+
+Dover comes pre-configured to you, so you just need to use it and do not worry about configuration. Basically log4net has seven logging levels, five of which can be called in your code.
+
+1. **OFF** - nothing gets logged (cannot be called)
+2. **FATAL**
+3. **ERROR**
+4. **WARN**
+5. **INFO**
+6. **DEBUG**
+7. **ALL** - everything gets called (cannot be called).
+
+So basically you can call: Logger.Info("Message"), Logger.Warn("Message") and so on on your code. The default log level for dover is INFO, so INFO, WARN, ERROR and FATAL are all logged. Debug not.
+
+If you need to change any configuration on log4net, you can check this [article](http://www.codeproject.com/Articles/140911/log-net-Tutorial) for some syntax examples.
+
+### Configuration files
+
+When Dover is booting up, it will load it's config file from Dover.config in the addon instalation path folder. So suppose you've installed it on C:\Program Files\SAP\SAP Business One\AddOns\Dover, inside this folder there will be a file called Dover.config.
+
+When Dover finishes loading all DLLs from the database, it continues running from %APPDATA%\Dover\SERVER-COMPANYDB\. Inside this folder you'll find another config file called Dover.config. When Dover is running on a temp AppDomain, to test a DLL for example, it'll load the config file from DoverTemp.config. And for each Addin that dover loads, it will create a config file called addinname.config.
+
+This means you have full flexibility on how dover will log things. If there is an error wile installing or configuring an addin, change logs for DoverTemp app domain. If the error resides inside an addin, change the addin configuration. If you have more than one addin running, just the desired one will be switched to debug mode, for example.
+
+### Custom SAP Appender
+
+Log4net enables you to write custom appenders. Dover has a custom appender named SAPAppender that will log stuff on UI API appropriately. You'll notice this section on all config files
+
+{% highlight XML %}
+    <appender name="UIAPI" type="Dover.Framework.Log.SAPAppender"/>
+{% endhighlight %}
+
+This is the mappings that SAPAppender use:
+
+* **Alert**: an application.statusbar.settext with bostatusbarmessagetype of smt_None is called.
+* **Debug**: an application.statusbar.settext with bostatusbarmessagetype of smt_Success is called.
+* **Warning**: an application.statusbar.settext with bostatusbarmessagetype of smt_Warning is called.
+* **All except Alert, Debug and Warning**: an application.statusbar.settext with bostatusbarmessagetype of smt_Error is called.
+
+When you're logging, there is an optional parameter that is an exception object. If you log an exception, this will also appear to the end user into the screen, like this:
+
+![Exception trace window]( {{ site.url }}/images/exception/exception-trace-window.png )
+
+Notice that you have the exception message, the exception StackTrace and, if there is any Inner Exception, you can easily access it. That's really nice for support! 
+
+### Addin Logging best practices
+
+**Do not call Application.StatusBar directly**. This is the main mantra when I'm writing an addin for Dover. Why?
+
+1. If someone complains about some error or message that appeared on B1 screen, you'll always have access to it on the log file.
+2. More than the error message, you can configure log4net to print on the log file the class and method that had the message. This may slow down logging but for debug that's not an issue.
+3. You can have business classes decoupled from UI-API. That means that if you want to reuse the code on a windows service, for example, you can do without any modification.
+
