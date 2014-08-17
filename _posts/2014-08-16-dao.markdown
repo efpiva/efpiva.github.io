@@ -1,0 +1,155 @@
+---
+layout: post
+title:  "Business One DAO"
+date:   2014-08-16 20:00
+categories: articles
+---
+
+DAO stands for Data Access Object. This article explains the interface BusinessOneDAO that Dover provides, showing how to deal with User Tables, Recordset and Business Objects provided by DI-API.
+
+### Basic Concepts
+ 
+All classes from the Dover Framework are instantiated by the IoC container. That means that if you need to work with BusinessOneDAO you have two options
+
+* **Create a public property**
+* **Create a constructor with the desired dependency**
+
+So if you need a service class with two dependencies, one for Logger and another for BusinessOneDAO, you can do something like this if you want to use property injection for the Logger and constructor injection for BusinessOneDAO.
+
+{% highlight C# %}
+    public class BusinessPartnerUpdateService
+    {
+        public ILogger Logger { get; set; }
+        private BusinessOneDAO b1DAO;
+
+        public BusinessPartnerUpdateService(BusinessOneDAO b1DAO)
+        {
+            this.b1DAO = b1DAO;
+        }
+    }
+{% endhighlight %}
+
+After the class is created, you can consider you have an instance for the Logger and for the b1DAO object. They're all injected by our IoC container. If you want to learn more about IoC, check the [working with IoC]({{ site.url }}/articles/2014/08/16/ioc) article.
+
+### Recordset
+
+Since all Recordset on BusinessOne uses DI-API, you cannot use any persistence framework to interact with it, and if you want to follow SAP guidelines you should avoid accessing the database directly.
+
+The basic code structure for those who do not use Dover is as follow:
+
+{% highlight C# %}
+Recordset rs = (Recordset)company.GetBusinessObject(BoObjectTypes.BoRecordset);
+try
+{
+    rs.DoQuery("your sql");
+    while (!rs.EoF)
+    {
+        // parse your results
+        rs.MoveNext();
+    }
+}
+catch (Exception)
+{
+    // do something. Maybe logging?
+}
+finally
+{
+    System.Runtime.InteropServices.Marshal.ReleaseComObject(rs);
+}
+{% endhighlight %}
+
+Notice how much code we need to for a simple SQL. You should check for errors and do not forget to release your objects, since COM objects may not be released by .NET garbage collector and may cause memory leak.
+
+If you use dover and want to get a List of single values, all you need to do is this
+{% highlight C# %}
+string code = b1DAO.ExecuteSqlForObject<string>("Your SQL");
+{% endhighlight %}
+
+**MUCH** easier, isn't it?
+
+What if you need to return some complex data? No problem, you can do this also
+
+{% highlight C# %}
+    // Class that will wrap your result
+    public class BPSales
+    {
+        public double DocTotal { get; set; }
+        public double Quantity { get; set; }
+    }
+
+    // somewhere in your code you can call this
+    BPSales sales = b1DAO.ExecuteSqlForObject<BPSales>(
+    "SELECT SUM(LineTotal) DocTotal, SUM(Quantity) Quantity FROM INV1");
+{% endhighlight %}
+
+Dover will look for the results in your SQL and find the matching property in your object. If it doesn't find it (you misspelled something, for example), an exception explaining this is thrown.
+
+You have the option also to call ExecuteSqlForList, that will parse all the results and return a list of the desired type instead, also supporting complex types.
+
+
+{% highlight C# %}
+List<string> cardCodes = b1DAO.ExecuteSqlForList<string>(
+    "SELECT CardCode FROM OCRD");
+{% endhighlight %}
+
+### Supporting SQL Server and HANA
+
+If you plan to run your solution on SQL Server and also on HANA, you can choose from the two options below
+
+* **Create an interface and have multiple implementations**: Since we use an IoC container, you can have multiple implementations of your interface and inject the appropriated one, based on the type of the database the addin is running on. Choose this if you have dynamic SQL generation that have different business logics on HANA and SQL. If that's what you need, you should learn more about IoC and apply it. This isn't the scope of this article.
+* **Store different SQL for each database as resources**: This is easier and has some additional support from Dover. Check below.
+
+If you plan to work with SQL as resources, create a folder called hana and another called sql on the namespace of the class that will need to access it. If it's on the root of your application, do like this
+
+![solution with hana and sql]( {{ site.url }}/images/dao/solution.png)
+
+If you have a folder called DAO for your classes, inside that folder that you'll create the hana and sql subfolders.
+
+Now, to get an SQL just do something like that
+
+{% highlight C# %}
+List<string> cardCodes = b1DAO.ExecuteSqlForList<string>(this.GetSQL("ListBP.sql"));
+{% endhighlight %}
+
+the this.GetSQL is available to you after you import the namespace Dover.Framework.DAO. You do not need to implement/extend any class/interface.
+
+### Working with Business Objects
+
+When you're working with Business Objects without Dover, this is a typical usage code that we can explore and than show the benefits of dover
+
+{% highlight C# %}
+BusinessPartners bp = (BusinessPartners)company.GetBusinessObject(BoObjectTypes.oBusinessPartners);
+// do something with BP.
+int ret;
+string errMsg;
+ret = bp.Add();
+if (ret != 0)
+{
+    company.GetLastError(out ret, out errMsg);
+    // do something
+}
+System.Runtime.InteropServices.Marshal.ReleaseComObject(bp);
+{% endhighlight %}
+
+Again some repetitive work to do. You need to check the error code and throw an exception if some error occurs, and you also need to release the COM object as mentioned above.
+
+With dover, all you need to do is this:
+
+{% highlight C# %}
+BusinessPartners bp = b1DAO.GetBusinessObject(BoObjectTypes.oBusinessPartners);
+// do something
+b1DAO.SaveBusinessObject(bp);
+b1DAO.Release(bp);
+{% endhighlight %}
+
+Here the SaveBusinessObject already do the job for you. It will check for error and thrown an exception if an error happens, releasing the COM object before that. You can than catch this error on the presentation layer if needed.
+
+If no error happens, you can release the object manually. The Release method is basically a shortening of System.Runtime.InteropServices.Marshal.ReleaseComObject.
+
+### Direct Company access
+
+If you need to do some work directly with the Company object for some reason, no problem, you still can do this. Just add a Company Property to your class or add the Company as a parameter of your constructor. The IoC container will inject it for you.
+
+ 
+
+
