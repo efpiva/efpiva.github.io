@@ -2,14 +2,14 @@
 layout: post
 title:  "Working with Forms"
 date:   2014-08-09 20:00
-categories: article
+categories: articles
 ---
 
 Here you'll learn how to properly work with forms using Dover. You have the option to import your b1s file from B1Studio or also work directly with XML forms, having both choices their advantages and disadvantages, which will be discussed here. I'll also show how Dover helps you with proper exception handling, making your solution more robust.
 
 ### Prerequisites 
 
-I'll assume you already know how to start a new project with Dover, create menus and menus events to open your Forms. You can learn this at the [Quick Start Article]({{ site-url }}/article/2014/08/07/quick-start/).
+I'll assume you already know how to start a new project with Dover, create menus and menus events to open your Forms. You can learn this at the [Quick Start Article]({{ site.url }}/articles/2014/08/07/quick-start/).
 
 ### Working with B1S files
 
@@ -69,5 +69,5 @@ For proxies Dover uses the library DynamicProxy from the Castle Project. You can
 
 ### Download the code
 
-All tutorials can be downloaded at the [Downloads]({{ site.url }}/downloads/) page.
+All tutorials can be downloaded at the [download]({{ site.url }}/downloads/) page.
 

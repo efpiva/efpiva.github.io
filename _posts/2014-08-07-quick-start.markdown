@@ -2,7 +2,7 @@
 layout: post
 title:  "Writing an Addin - Quick Start"
 date:   2014-08-07 10:00:00
-categories: article
+categories: articles
 ---
 
 So you've heard of Dover, want to try it and do not know where to start? Follow up this nice quick start tutorial to write your first addin. In this post you'll learn how to create User Forms, UDOs and update System Forms, as well as how to create menus and addin startup instructions. At the end of this tutorial you'll have the download link for the tutorial source code.
