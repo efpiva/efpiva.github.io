@@ -1,0 +1,52 @@
+---
+layout: post
+title:  "Inversion of Control"
+date:   2014-08-16 20:00
+categories: articles
+---
+
+Inversion of Control is basically a concept that helps you create software with modularity in mind. This is good to help you make your code easier to maintain and easier to test. With modularity you can also reuse better your code, creating API for your solution or also creating multiple implementations for your modules. One valid example you can have one implementation for SQL and another for HANA for some specific component.
+
+### IoC Container
+
+As told earlier, IoC is a concept used by Dover. Dover do not implement it, instead it uses a well established implementation called Windsor Castle, from the castle project. You can read more about it on [Windsor Castle site](http://docs.castleproject.org/Windsor.MainPage.ashx) and you can also check [the Castle Project website](http://www.castleproject.org/).
+
+### Basic Usage
+
+You have two different types of injection, being then Property Injection and Constructor Injection. With Property Injection you just define a public Property for what you need, and the container will create it to you. The example bellow create an instance of the Logger API
+
+ 
+{% highlight C# %}
+    public class SomeService
+    {
+        public ILogger Logger { get; set; }
+    }
+{% endhighlight %}
+
+With Constructor Injection, as you may imagine, you just need to add a parameter to your constructor class
+
+
+{% highlight C# %}
+    public class SomeService
+    {
+        public ILogger Logger { get; set; }
+        private BusinessOneDAO b1DAO;
+
+        public BusinessPartnerUpdateService(BusinessOneDAO b1DAO)
+        {
+            this.b1DAO = b1DAO;
+        }
+    }
+{% endhighlight %}
+
+So in the example above the SomeService class will be injected with the Logger implementation and BusinessOneDAO implementation.
+
+So to use it basically create your forms, add the classes you need in your forms as public properties or as a constructor argument. Since your Form will be created by Dover, it will have it injected. And to inject it, it will inject the dependencies dependencies, and so on.
+
+### Advanced Usage
+
+If you need to access the Windsor Castle container to resolve manually something or to change it's configuration, just access ContainerManager.Container static property, located on namespace Dover.Framework.Factory.
+
+You can do whatever you want with it without affecting other Addins neither Dover Framework core. This can be guaranteed since all your code is running on a separate AppDomain just for you.
+
+To check what you can do with Windsor Castle Container, check [Windsor Castle site](http://docs.castleproject.org/Windsor.MainPage.ashx).
