@@ -1,22 +1,62 @@
 ---
 layout: default
-name: Downloads
+name: main page
 ---
 
 <div class="home">
 
-  <h1>Posts</h1>
+<section id="boxcontent">
+<article>
+<img src="{{ site.baseurl }}/images/icons/lifecycle.png" alt="alt text"/>
+<h3><a href="{{ site.baseurl }}/">
+Lifecycle management
+</a>
+</h3>
+<p>
+Start, Stop, Install and Update your solution without restarting and reinstalling your Addon.
+</p>
+</article>
+<article>
+<img src="{{ site.baseurl }}/images/icons/db.png" alt="alt text"/>
+<h3>Automatic Database Creation</h3>
+<p>
+Create your UDO, User Defined Table and User Defined Fields without any additional code. 
+</p>
+</article>
+<article>
+<img src="{{ site.baseurl }}/images/icons/dao.png" alt="alt text"/>
+<h3>Business One DAO</h3>
+<p>
+Access your Business One Database in a standard way, making it easier to manage your resources and remove boilerplate code.
+</p>
+</article>
+<br class="clear"/></section>
 
-  <ul class="posts">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-date">{{ post.date | date: "%b %-d, %Y" }}</span>
-        <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        {{ post.excerpt }} 
-      </li>
-    {% endfor %}
-  </ul>
+<section id="boxcontent">
+<article>
+<img src="{{ site.baseurl }}/images/icons/logging.png" alt="alt text"/>
+<h3>Enterprise Logging</h3>
+<p>
+Dover integrates gracefully with Log4Net and also implement a custom appender that enables you to log directly on UI-API.
+</p>
+</article>
+<article>
+<img src="{{ site.baseurl }}/images/icons/i18n.png" alt="alt text"/>
+<h3>Integrated i18n</h3>
+<p>
+Dover support native internationalization for Forms (System, User and UDOs) and also for all your menus, integrating it with .NET I18N Resources.
+</p>
+</article>
+<article>
+<img src="{{ site.baseurl }}/images/icons/transaction.png" alt="alt text"/>
+<h3>Annotated transactions</h3>
+<p>
+Forget about all that boilerplate code you need to manage transactions. Just annotate it and Dover does the rest for you.
+</p>
+</article>
+<br class="clear"/></section>
 
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+<p id="iconscc">Icons by Timothy Miller   License: Creative Commons 3.0</p>
+
 
 </div>
