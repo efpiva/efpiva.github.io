@@ -8,9 +8,9 @@ Dover is a Framework that enables rapid addon development for SAP Business One, 
 
 ### Why?
 
-At GWE Added we tried to migrate our development tools to work with the new SAP Business One Studio (called from now on B1Studio) tool, provided on SAP 9.0, we faced some limitations at our Company. It's not possible to define where forms are going to be loaded from, and neither manipulate it before rendering it on screen. So it was not possible to create solutions with multiple assemblies (an AddOn with multiples DLLs, for example), neither work properly with internationalization.
+At GWE Added we faced some limitations while trying to use SAP Business One Studio, provided on SAP 9.0. It's not possible to define where forms are going to be loaded from, and neither manipulate it before rendering it on screen. So it was not possible to create solutions with multiple assemblies (an AddOn with multiples DLLs, for example), neither work properly with internationalization.
 
-Those two features were blocking us from using B1Studio, but we really enjoyed the benefits of the new event handling model. At our company we already had some infrastructure for addon development, but where were some lacking features and gaps we already known. Adapting it to work with B1Studio would require a lot of work, and would not lead to a nice solution. That's was when I decided to rewrite all our addon infrastructure development from scratch.
+Those two features were blocking us from using Business One Studio, but we really enjoyed the benefits of the new event handling model. We already had some infrastructure for addon development with it's own limitation. Adapting it to work with Business One Studio would require a lot of work, and would not lead to a nice solution. That was when I decided to rewrite all our addon infrastructure development from scratch.
 
 ### License
 
