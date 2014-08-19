@@ -11,8 +11,8 @@ Dover support multiple addins running directly from the database you're running 
 
 Dover allways start from the database installed DLLs. This means that you can upgrade Dover without upgrading the addon. The main benefits from this approach is:
 
-* Reduced downtime because no addon upgrade is needed
-* Easy to create test environments for support. Just restore the database and you're done with all correct versions.
+* **Reduced downtime because no addon upgrade is needed**
+* **Easy to create test environments for support. Just restore the database and you're done with all correct versions.**
 
 How is this even possible? At Addon startup dover runs a MicroBoot procedure that read all information from database and store it on %APPDATA%\Dover\SERVER-DBNAME, if they do not exists there or if it's outdated. After that, all code is executed from that location with the database version, including Addin registration and startup.
 
@@ -34,7 +34,9 @@ With Addins, the approach is basically the same. Share UI-API and DI-API and cre
 
 It's also possible to upgrade, remove, start and stop an Addin without restarting Dover, again reducing support.
 
-There is a special operation called Install, that register the addin the first time after you've successfully uploaded it to the database, that can be trigger manually or automatically at the first boot of the Addin. This operation will create all UDT/UDF/UDOs to you, when necessary. To know more about that, check the [deploying database article]( {{ site.url }}/articles/2004/08/16/deploying-database ).
+There is a special operation called Install, that register the addin the first time after you've successfully uploaded it to the database, that can be trigger manually or automatically at the first boot of the Addin. This operation will create all UDT/UDF/UDOs to you, when necessary, as shown below.
 
+![Database change warning]({{ site.url }}/images/deploying-database/dbwarn.png)
 
+To know more about that, check the [deploying database article]( {{ site.url }}/articles/2014/08/16/deploying-database ).
 
