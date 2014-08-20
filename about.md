@@ -6,6 +6,23 @@ permalink: /about/
 
 Dover is a Framework that enables rapid addon development for SAP Business One, developed by Eduardo Piva and sponsored by [GWE Added](http://www.gweadded.com.br), a SAP Business One VAR (Valued Added Reseller) in Brazil.
 
+### Features
+
+* Addin lifecycle management
+   * Automatic creation and update of UDO, UDT and UDF
+   * Automatic updates without installing new addons
+   * Create test databases in a simple and easy way
+   * Nice and usefull Warnings when an update will change database structure, easying support.
+* Business One standard DAO
+* Annotatted Transactions
+* i18n Support for Forms
+   * UDO
+   * SystemForms
+   * UserForms
+* Enterprise logging using Log4Net
+* Built in IoC container on Business One Studio that easies testing and maintenance
+* Automatic proxy on BusinessOne events, preventing crashes and handling logging on a nice way, easying support.
+
 ### Why?
 
 At GWE Added we faced some limitations while trying to use SAP Business One Studio, provided on SAP 9.0. It's not possible to define where forms are going to be loaded from, and neither manipulate it before rendering it on screen. So it was not possible to create solutions with multiple assemblies (an AddOn with multiples DLLs, for example), neither work properly with internationalization.
